@@ -24,6 +24,32 @@ Built because `@mentions` are common, annoying to build, and easily insecure.
 }
 ```
 
+### Configuration
+
+#### Type Aliases
+
+If your app uses different mention type strings, pass an alias map when normalizing:
+
+```python
+from mentionkit import normalize_mention_type
+
+ALIASES = {"event": "meeting"}
+canonical = normalize_mention_type("event", aliases=ALIASES)
+```
+
+### Python usage
+
+```python
+from mentionkit import parse_mentions, summarize_mentions_for_prompt
+
+mentions = parse_mentions(page_context, aliases={"event": "meeting"})
+prompt_hint = summarize_mentions_for_prompt(mentions)  # labels/types only; no IDs
+
+contact = mentions.ensure_at_most_one("contact")
+if contact:
+    contact_id = contact.id  # UUID
+```
+
 ### Docs
 - `SPEC.md`: contract + privacy boundary
 - `SECURITY.md`: threat model + implementation guidance

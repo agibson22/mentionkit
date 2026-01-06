@@ -49,7 +49,7 @@ Mentions are transmitted as part of a request-scoped `page_context` object:
 
 ### Backend resolution rules
 Backends must treat `page_context.mentions` as **untrusted** input and apply:
-- **Type normalization** (optional but recommended): map aliases to canonical types (example: `event -> meeting`).
+- **Type normalization** (optional but recommended): map aliases to canonical types (example: `event -> meeting`). Aliases are app-configurable.
 - **ID parsing**: parse `id` into your canonical identifier type (UUID, ULID, etc). Reject invalid formats.
 - **Tenant scoping validation (strongly recommended)**:
   - Verify each referenced entity exists **and belongs to the caller’s tenant/account**.
