@@ -1,3 +1,23 @@
+## mentionkit demo
+
+This is a tiny Vite app that exercises `mentionkit-react`.
+
+### Run locally
+
+From the repo root:
+
+```bash
+cd /Users/ag/Sites/mentionkit
+npm install
+```
+
+Then start the dev server:
+
+```bash
+cd examples/demo
+npm run dev
+```
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

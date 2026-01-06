@@ -63,6 +63,7 @@ mentions = await parse_and_validate_mentions(page_context, validator=my_validato
 ### Docs
 - `SPEC.md`: contract + privacy boundary
 - `SECURITY.md`: threat model + implementation guidance
+- `examples/demo/README.md`: local demo (mentionkit-react)
 
 ### Status
 v0.1 — extracting from a production app and dogfooding first.
