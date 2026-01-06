@@ -1,0 +1,13 @@
+{
+  "name": "mentionkit",
+  "private": true,
+  "workspaces": [
+    "packages/react/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "build": "npm --workspaces --if-present run build"
+  }
+}
+
+
