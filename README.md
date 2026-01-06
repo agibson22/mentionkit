@@ -60,6 +60,31 @@ from mentionkit import parse_and_validate_mentions
 mentions = await parse_and_validate_mentions(page_context, validator=my_validator)
 ```
 
+### React usage (v0.1 API)
+
+`mentionkit-react` exports a controlled `MentionComposer`:
+
+```tsx
+import { useState } from "react"
+import { MentionComposer, type MentionComposerValue } from "mentionkit-react"
+
+const [value, setValue] = useState<MentionComposerValue>({ text: "", mentions: [] })
+
+<MentionComposer
+  value={value}
+  onChange={setValue}
+  placeholder="Try: @contact Dwight"
+  getSuggestions={async (query) => {
+    // Return [{ type, id, label }] from your API/search layer.
+    return []
+  }}
+/>
+```
+
+- `value.text`: plain text that can be sent to an LLM
+- `value.mentions`: structured pills `{ type, id, label }` for backend resolution
+- `getSuggestions(query)`: called when user types an `@...` token; return suggestions with `{ type, id, label }`
+
 ### Docs
 - `SPEC.md`: contract + privacy boundary
 - `SECURITY.md`: threat model + implementation guidance
