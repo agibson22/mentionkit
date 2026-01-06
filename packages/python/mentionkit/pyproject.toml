@@ -2,12 +2,16 @@
 name = "mentionkit"
 version = "0.1.0"
 description = "Secure, ID-backed @mentions (“pills”) for LLM chat UIs."
-readme = "../../../README.md"
+readme = "README.md"
 requires-python = ">=3.10"
-license = { file = "../../../LICENSE" }
+license = { text = "Apache-2.0" }
 authors = [{ name = "ag", email = "agibson22@gmail.com" }]
 
 dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/agibson22/mentionkit"
+Repository = "https://github.com/agibson22/mentionkit"
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0.0", "pytest-asyncio>=0.23.0"]
