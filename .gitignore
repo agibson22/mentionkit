@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtualenvs
+.venv/
+
+# Pytest
+.pytest_cache/
+
+# uv / packaging outputs (library repo; keep noise out of git)
+uv.lock
+
+# OS
+.DS_Store
+
+

@@ -50,6 +50,16 @@ if contact:
     contact_id = contact.id  # UUID
 ```
 
+### Validation (tenant/account scoping)
+
+mentionkit is DB-agnostic. Your app can validate that mention IDs exist and belong to the current tenant/account:
+
+```python
+from mentionkit import parse_and_validate_mentions
+
+mentions = await parse_and_validate_mentions(page_context, validator=my_validator)
+```
+
 ### Docs
 - `SPEC.md`: contract + privacy boundary
 - `SECURITY.md`: threat model + implementation guidance

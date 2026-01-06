@@ -2,7 +2,13 @@ from __future__ import annotations
 
 import pytest
 
-from mentionkit import MentionParseError, parse_mentions, summarize_mentions_for_prompt
+from mentionkit import (
+    MentionParseError,
+    TooManyMentionsError,
+    parse_and_validate_mentions,
+    parse_mentions,
+    summarize_mentions_for_prompt,
+)
 
 
 def test_parse_mentions_normalizes_and_dedupes() -> None:
@@ -35,6 +41,18 @@ def test_invalid_uuid_raises() -> None:
         parse_mentions(page_context)
 
 
+def test_ensure_at_most_one_raises_on_multiple() -> None:
+    page_context = {
+        "mentions": [
+            {"type": "contact", "id": "4c0a9e7a-2f40-4c64-9b7a-1f447f1b7ef8", "label": "Dwight Schrute"},
+            {"type": "contact", "id": "11111111-1111-4111-8111-111111111111", "label": "Jim Halpert"},
+        ]
+    }
+    mentions = parse_mentions(page_context)
+    with pytest.raises(TooManyMentionsError):
+        _ = mentions.ensure_at_most_one("contact")
+
+
 def test_prompt_summary_never_includes_ids() -> None:
     page_context = {
         "mentions": [
@@ -46,5 +64,26 @@ def test_prompt_summary_never_includes_ids() -> None:
     assert summary is not None
     assert "Dwight Schrute" in summary
     assert "4c0a9e7a-2f40-4c64-9b7a-1f447f1b7ef8" not in summary
+
+
+@pytest.mark.asyncio
+async def test_parse_and_validate_mentions_calls_validator() -> None:
+    class Validator:
+        def __init__(self) -> None:
+            self.called = False
+
+        async def validate(self, mentions) -> None:  # type: ignore[no-untyped-def]
+            self.called = True
+            # sanity check: validator sees parsed mentions
+            assert summarize_mentions_for_prompt(mentions) is not None
+
+    v = Validator()
+    page_context = {
+        "mentions": [
+            {"type": "contact", "id": "4c0a9e7a-2f40-4c64-9b7a-1f447f1b7ef8", "label": "Dwight Schrute"}
+        ]
+    }
+    _ = await parse_and_validate_mentions(page_context, validator=v)
+    assert v.called is True
 
 
