@@ -67,7 +67,7 @@ from mentionkit import parse_and_validate_mentions
 mentions = await parse_and_validate_mentions(page_context, validator=my_validator)
 ```
 
-### React usage (v0.1 API)
+### React usage (v0.2 API)
 
 `mentionkit-react` exports a controlled `MentionComposer`:
 
@@ -120,7 +120,7 @@ The spec allows duplicate mentions (even the same `{type,id}` repeated). You can
 - `examples/api/README.md`: local backend demo API (FastAPI)
 
 ### Status
-v0.1 — extracting from a production app and dogfooding first.
+v0.2 — dogfooding and iterating (see `CHANGELOG.md` for release notes).
 
 ### Roadmap (deferred)
 

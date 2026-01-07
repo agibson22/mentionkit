@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   publish:
@@ -36,8 +37,6 @@ jobs:
         run: npm run -w mentionkit-react build
 
       - name: Publish mentionkit-react
-        run: npm publish -w mentionkit-react
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish -w mentionkit-react --provenance
 
 
