@@ -41,6 +41,27 @@ def test_invalid_uuid_raises() -> None:
         parse_mentions(page_context)
 
 
+def test_parse_mentions_supports_custom_id_parser() -> None:
+    page_context = {"mentions": [{"type": "contact", "id": "obj_123", "label": "Dwight"}]}
+    mentions = parse_mentions(page_context, id_parser=lambda v: str(v))
+    item = mentions.get_first("contact")
+    assert item is not None
+    assert item.id == "obj_123"
+
+
+def test_parse_mentions_custom_id_parser_dedupes_by_parsed_id() -> None:
+    page_context = {
+        "mentions": [
+            {"type": "contact", "id": "obj_123", "label": "Dwight"},
+            {"type": "contact", "id": "obj_123", "label": "Dwight (dup)"},
+        ]
+    }
+    mentions = parse_mentions(page_context, id_parser=lambda v: str(v))
+    items = mentions.get_all("contact")
+    assert len(items) == 1
+    assert items[0].id == "obj_123"
+
+
 def test_ensure_at_most_one_raises_on_multiple() -> None:
     page_context = {
         "mentions": [

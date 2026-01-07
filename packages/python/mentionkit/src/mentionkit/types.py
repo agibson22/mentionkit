@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional
-from uuid import UUID
+from typing import Generic, Hashable, Optional, TypeVar
+
+IdT = TypeVar("IdT", bound=Hashable)
 
 
 @dataclass(frozen=True, slots=True)
-class Mention:
+class Mention(Generic[IdT]):
     """A structured reference to an entity mentioned by the user.
 
     - `type` is normalized/canonical (e.g. "meeting", not "event").
@@ -15,7 +16,7 @@ class Mention:
     """
 
     type: str
-    id: UUID
+    id: IdT
     label: Optional[str] = None
 
 

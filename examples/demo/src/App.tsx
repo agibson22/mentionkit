@@ -3,6 +3,36 @@ import { MentionComposer, type MentionComposerValue, type MentionSuggestion } fr
 import { ShadcnStyledComposer } from "./ShadcnStyledComposer"
 import "./App.css"
 
+function SunIcon() {
+  return (
+    <svg className="demoThemeIcon" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16V1m0 22v-1m10-10h1M1 12h1m17.07 7.07.7.7M4.93 4.93l.7.7m0 13.44-.7.7m14.14-14.14-.7.7"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function MoonIcon() {
+  return (
+    <svg className="demoThemeIcon" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 function App() {
   const [value, setValue] = useState<MentionComposerValue>({ text: "", mentions: [] })
   const [renderer, setRenderer] = useState<"vanilla" | "shadcn">("vanilla")
@@ -48,6 +78,7 @@ function App() {
   return (
     <div className="demoPage">
       <div className="demoHeader">
+        <div className="demoHeaderSpacer" aria-hidden="true" />
         <h1 className="demoTitle">mentionkit demo</h1>
         <button
           type="button"
@@ -55,30 +86,32 @@ function App() {
           onClick={toggleTheme}
           aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
         >
-          {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+          {theme === "dark" ? <SunIcon /> : <MoonIcon />}
         </button>
       </div>
       <div className="demoSubtitle">Type <code>@</code> to see suggestions; use click or Enter to insert a pill.</div>
 
-      <div className="demoTabs" role="tablist" aria-label="Renderer">
-        <button
-          type="button"
-          className={renderer === "vanilla" ? "demoTab demoTabActive" : "demoTab"}
-          role="tab"
-          aria-selected={renderer === "vanilla"}
-          onClick={() => setRenderer("vanilla")}
-        >
-          Vanilla
-        </button>
-        <button
-          type="button"
-          className={renderer === "shadcn" ? "demoTab demoTabActive" : "demoTab"}
-          role="tab"
-          aria-selected={renderer === "shadcn"}
-          onClick={() => setRenderer("shadcn")}
-        >
-          Shadcn-styled
-        </button>
+      <div className="demoTabsOuter">
+        <div className="demoTabs" role="tablist" aria-label="Renderer">
+          <button
+            type="button"
+            className={renderer === "vanilla" ? "demoTab demoTabActive" : "demoTab"}
+            role="tab"
+            aria-selected={renderer === "vanilla"}
+            onClick={() => setRenderer("vanilla")}
+          >
+            Vanilla
+          </button>
+          <button
+            type="button"
+            className={renderer === "shadcn" ? "demoTab demoTabActive" : "demoTab"}
+            role="tab"
+            aria-selected={renderer === "shadcn"}
+            onClick={() => setRenderer("shadcn")}
+          >
+            Shadcn-styled
+          </button>
+        </div>
       </div>
 
       <div className="demoGrid">
