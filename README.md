@@ -85,6 +85,25 @@ const [value, setValue] = useState<MentionComposerValue>({ text: "", mentions: [
 - `value.mentions`: structured pills `{ type, id, label }` for backend resolution
 - `getSuggestions(query)`: called when user types an `@...` token; return suggestions with `{ type, id, label }`
 
+#### Headless API (custom renderers)
+
+If you want to keep your own look/feel, `mentionkit-react` also exports a headless hook:
+
+```tsx
+import { useMentionComposer } from "mentionkit-react"
+```
+
+The demo shows two renderers built on the same headless core: a vanilla `MentionComposer` and a “shadcn-styled” example implemented in the demo app (without adding shadcn/tailwind deps to `mentionkit-react`).
+
+### Duplicate mentions (UI vs backend)
+
+The spec allows duplicate mentions (even the same `{type,id}` repeated). You can choose where to dedupe:
+
+- **Frontend (insertion time)**: `MentionComposer` supports `duplicatePolicy`:
+  - `"allow"` (default)
+  - `"dedupeByTypeId"` (ignore inserting an already-present `{type,id}` mention)
+- **Backend parsing**: Python `parse_mentions(...)` currently defaults to `dedupe=True` and will dedupe by `(type,id)`.\n+  - If you need to preserve duplicates, pass `dedupe=False`.\n+  - Be aware selectors like `ensure_at_most_one(...)` will raise if multiple mentions of a type are present.
+
 ### Docs
 - `SPEC.md`: contract + privacy boundary
 - `SECURITY.md`: threat model + implementation guidance
@@ -92,3 +111,7 @@ const [value, setValue] = useState<MentionComposerValue>({ text: "", mentions: [
 
 ### Status
 v0.1 — extracting from a production app and dogfooding first.
+
+### Roadmap (deferred)
+
+- **Backend demo API (FastAPI)**: add `examples/api` with `/suggest` + `/resolve` for an end-to-end deterministic resolution demo.\n+- **Non-UUID IDs**: add support for ULID/ObjectId/int in Python parsing/validation while preserving the “IDs never in prompts” boundary.

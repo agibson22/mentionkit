@@ -1,7 +1,9 @@
 {
   "name": "mentionkit-react",
   "version": "0.1.0",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "React helpers/components for mentionkit (@mentions pills).",
   "license": "Apache-2.0",
   "type": "module",
@@ -11,6 +13,7 @@
     "dist"
   ],
   "scripts": {
+    "prepack": "npm run build",
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "test": "echo \"TODO\" && exit 1"
   },

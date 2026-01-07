@@ -1,9 +1,25 @@
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect } from "react"
 import { MentionComposer, type MentionComposerValue, type MentionSuggestion } from "mentionkit-react"
+import { ShadcnStyledComposer } from "./ShadcnStyledComposer"
 import "./App.css"
 
 function App() {
   const [value, setValue] = useState<MentionComposerValue>({ text: "", mentions: [] })
+  const [renderer, setRenderer] = useState<"vanilla" | "shadcn">("vanilla")
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    const saved = localStorage.getItem("theme")
+    if (saved === "dark" || saved === "light") return saved
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+  })
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme)
+    localStorage.setItem("theme", theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"))
+  }
 
   const getSuggestions = async (query: string): Promise<MentionSuggestion[]> => {
     // Tiny mocked data set for v0.1 demo.
@@ -30,37 +46,65 @@ function App() {
   }, [value])
 
   return (
-    <div style={{ maxWidth: 900, margin: "32px auto", padding: "0 16px" }}>
-      <h1 style={{ fontSize: 28, marginBottom: 8 }}>mentionkit demo</h1>
-      <div style={{ opacity: 0.8, marginBottom: 16 }}>
-        Type <code>@</code> to see suggestions, click to insert a pill.
+    <div className="demoPage">
+      <div className="demoHeader">
+        <h1 className="demoTitle">mentionkit demo</h1>
+        <button
+          type="button"
+          className="demoThemeToggle"
+          onClick={toggleTheme}
+          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+        >
+          {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+        </button>
+      </div>
+      <div className="demoSubtitle">Type <code>@</code> to see suggestions; use click or Enter to insert a pill.</div>
+
+      <div className="demoTabs" role="tablist" aria-label="Renderer">
+        <button
+          type="button"
+          className={renderer === "vanilla" ? "demoTab demoTabActive" : "demoTab"}
+          role="tab"
+          aria-selected={renderer === "vanilla"}
+          onClick={() => setRenderer("vanilla")}
+        >
+          Vanilla
+        </button>
+        <button
+          type="button"
+          className={renderer === "shadcn" ? "demoTab demoTabActive" : "demoTab"}
+          role="tab"
+          aria-selected={renderer === "shadcn"}
+          onClick={() => setRenderer("shadcn")}
+        >
+          Shadcn-styled
+        </button>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      <div className="demoGrid">
         <div>
-          <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 8 }}>Composer</div>
-          <MentionComposer
-            value={value}
-            onChange={setValue}
-            placeholder="Try: @contact Dwight"
-            getSuggestions={getSuggestions}
-          />
+          <div className="demoSectionTitle">Composer</div>
+
+          {renderer === "vanilla" ? (
+            <MentionComposer
+              value={value}
+              onChange={setValue}
+              placeholder="Try: @contact Dwight"
+              getSuggestions={getSuggestions}
+            />
+          ) : (
+            <ShadcnStyledComposer
+              value={value}
+              onChange={setValue}
+              placeholder="Try: @contact Dwight"
+              getSuggestions={getSuggestions}
+            />
+          )}
         </div>
 
-        <div>
-          <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 8 }}>Payload preview</div>
-          <pre
-            style={{
-              padding: 12,
-              borderRadius: 8,
-              border: "1px solid rgba(0,0,0,0.2)",
-              background: "rgba(0,0,0,0.03)",
-              overflow: "auto",
-              maxHeight: 360,
-            }}
-          >
-            {payloadPreview}
-          </pre>
+        <div className="demoPreview">
+          <div className="demoSectionTitle">Payload preview</div>
+          <pre className="demoPre">{payloadPreview}</pre>
         </div>
       </div>
     </div>

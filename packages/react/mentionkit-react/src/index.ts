@@ -1,10 +1,11 @@
 export type { MentionPayload, PageContext } from "./types"
+export type { MentionComposerDuplicatePolicy, MentionComposerValue, MentionSuggestion } from "./composerTypes"
 
 export {
   MentionComposer,
   type MentionComposerProps,
-  type MentionComposerValue,
-  type MentionSuggestion,
 } from "./MentionComposer"
+
+export { useMentionComposer, type UseMentionComposerArgs, type UseMentionComposerResult } from "./useMentionComposer"
 
 

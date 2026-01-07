@@ -45,6 +45,8 @@ Mentions are transmitted as part of a request-scoped `page_context` object:
 - Duplicate mentions are allowed (even with the same `{type,id}`); servers and tools may dedupe or preserve duplicates depending on the use case.
 - Frontends should derive `page_context.mentions` from editor state at send-time (not from regex tokenization).
 
+Note: Some helper libraries may default to deduping duplicates when parsing for convenience; this should be configurable based on your app’s needs.
+
 ---
 
 ### Backend resolution rules
