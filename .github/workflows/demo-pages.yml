@@ -34,6 +34,9 @@ jobs:
       - name: Install deps (npm workspaces)
         run: npm ci
 
+      - name: Build mentionkit-react
+        run: npm run -w mentionkit-react build
+
       - name: Build demo (Vite)
         run: npm -w demo run build -- --base=/mentionkit/
 
