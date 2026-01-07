@@ -49,14 +49,31 @@ function App() {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"))
   }
 
+  const apiBaseUrl = import.meta.env.VITE_MENTIONKIT_API_BASE_URL as string | undefined
+  const suggestionsMode = apiBaseUrl ? "api" : "mock"
+
   const getSuggestions = async (query: string): Promise<MentionSuggestion[]> => {
-    // Tiny mocked data set for v0.1 demo.
     const all: MentionSuggestion[] = [
       { type: "contact", id: "4c0a9e7a-2f40-4c64-9b7a-1f447f1b7ef8", label: "Dwight Schrute" },
       { type: "contact", id: "11111111-1111-4111-8111-111111111111", label: "Jim Halpert" },
       { type: "meeting", id: "22222222-2222-4222-8222-222222222222", label: "Conference Room All Hands" },
       { type: "assignment", id: "33333333-3333-4333-8333-333333333333", label: "Follow up with David" },
     ]
+
+    if (apiBaseUrl) {
+      try {
+        const url = new URL("/suggest", apiBaseUrl)
+        url.searchParams.set("q", query)
+        const res = await fetch(url.toString(), { headers: { "X-Tenant-Id": "demo" } })
+        if (!res.ok) throw new Error(`suggest failed: ${res.status}`)
+        const items = (await res.json()) as MentionSuggestion[]
+        return items.slice(0, 6)
+      } catch (err) {
+        // Fall back to mock suggestions so the demo stays usable even if the API is down/misconfigured.
+        console.warn("mentionkit demo: falling back to mock suggestions; API error:", err)
+      }
+    }
+
     const q = query.trim().toLowerCase()
     if (!q) return all.slice(0, 6)
     return all.filter((x) => `${x.type} ${x.label}`.toLowerCase().includes(q)).slice(0, 6)
@@ -87,7 +104,10 @@ function App() {
           {theme === "dark" ? <SunIcon /> : <MoonIcon />}
         </button>
       </div>
-      <div className="demoSubtitle">Type <code>@</code> to see suggestions; use click or Enter to insert a pill.</div>
+      <div className="demoSubtitle">
+        Type <code>@</code> to see suggestions; use click or Enter to insert a pill.{" "}
+        <span className="demoPillMode">Suggestions: {suggestionsMode}</span>
+      </div>
 
       <div className="demoDemoCard">
         <div className="demoDemoGuide">

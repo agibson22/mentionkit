@@ -109,16 +109,20 @@ The spec allows duplicate mentions (even the same `{type,id}` repeated). You can
 - **Frontend (insertion time)**: `MentionComposer` supports `duplicatePolicy`:
   - `"allow"` (default)
   - `"dedupeByTypeId"` (ignore inserting an already-present `{type,id}` mention)
-- **Backend parsing**: Python `parse_mentions(...)` currently defaults to `dedupe=True` and will dedupe by `(type,id)`.\n+  - If you need to preserve duplicates, pass `dedupe=False`.\n+  - Be aware selectors like `ensure_at_most_one(...)` will raise if multiple mentions of a type are present.
+- **Backend parsing**: Python `parse_mentions(...)` currently defaults to `dedupe=True` and will dedupe by `(type,id)`.
+  - If you need to preserve duplicates, pass `dedupe=False`.
+  - Be aware selectors like `ensure_at_most_one(...)` will raise if multiple mentions of a type are present.
 
 ### Docs
 - `SPEC.md`: contract + privacy boundary
 - `SECURITY.md`: threat model + implementation guidance
 - `examples/demo/README.md`: local demo (mentionkit-react)
+- `examples/api/README.md`: local backend demo API (FastAPI)
 
 ### Status
 v0.1 — extracting from a production app and dogfooding first.
 
 ### Roadmap (deferred)
 
-- **Backend demo API (FastAPI)**: add `examples/api` with `/suggest` + `/resolve` for an end-to-end deterministic resolution demo.\n+- **Non-UUID IDs**: add support for ULID/ObjectId/int in Python parsing/validation while preserving the “IDs never in prompts” boundary.
+- **Backend demo API (FastAPI)**: add `examples/api` with `/suggest` + `/resolve` for an end-to-end deterministic resolution demo.
+- **Non-UUID IDs**: add support for ULID/ObjectId/int in Python parsing/validation while preserving the “IDs never in prompts” boundary.

@@ -21,11 +21,14 @@ This repo contains multiple packages:
 - **Demo (`examples/demo`)**
   - Overhaul demo page copy and layout (context blocks, payload caption, data-flow explanation).
   - Simplify demo by removing the shadcn renderer toggle and related demo-only component/styles.
+  - Add optional full-stack mode: set `VITE_MENTIONKIT_API_BASE_URL` to fetch mention suggestions from a local demo API (falls back to mock suggestions if the API is unavailable).
 
 - **Repo / CI**
   - Add GitHub Actions CI (uv-based) to run Python lint/format checks, tests, and package build.
   - Add repo `Makefile` with KISS targets for install/lint/format/test/build.
   - Add minimal badges (CI/license at root; PyPI/npm badges in package READMEs).
+  - Add local backend demo API under `examples/api` (FastAPI) with `/suggest` + `/resolve` to demonstrate tenant-scoped deterministic resolution and prompt-safe summaries.
+  - Add GitHub Pages workflow to deploy the frontend demo.
 
 ## v0.1.0
 

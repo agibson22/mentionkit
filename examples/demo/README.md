@@ -35,6 +35,33 @@ cd examples/demo
 npm run dev
 ```
 
+### Full-stack mode (optional)
+
+By default this demo uses a tiny mocked suggestions list (so it can be deployed as a static site, e.g. GitHub Pages).
+
+If you want “soup to nuts” locally, run the demo API and point the Vite demo at it:
+
+1) Start the backend demo API (FastAPI):
+
+- See `examples/api/README.md` or run:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -e packages/python/mentionkit
+pip install -r examples/api/requirements.txt
+python examples/api/app.py
+```
+
+2) Start the Vite demo in API mode:
+
+```bash
+cd examples/demo
+VITE_MENTIONKIT_API_BASE_URL=http://127.0.0.1:8000 npm run dev
+```
+
+In the UI, you’ll see “Suggestions: api” when it’s using the backend (and “mock” otherwise).
+
 ---
 
 ## React + TypeScript + Vite (template notes)
