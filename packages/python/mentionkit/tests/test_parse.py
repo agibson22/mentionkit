@@ -65,8 +65,16 @@ def test_parse_mentions_custom_id_parser_dedupes_by_parsed_id() -> None:
 def test_ensure_at_most_one_raises_on_multiple() -> None:
     page_context = {
         "mentions": [
-            {"type": "contact", "id": "4c0a9e7a-2f40-4c64-9b7a-1f447f1b7ef8", "label": "Dwight Schrute"},
-            {"type": "contact", "id": "11111111-1111-4111-8111-111111111111", "label": "Jim Halpert"},
+            {
+                "type": "contact",
+                "id": "4c0a9e7a-2f40-4c64-9b7a-1f447f1b7ef8",
+                "label": "Dwight Schrute",
+            },
+            {
+                "type": "contact",
+                "id": "11111111-1111-4111-8111-111111111111",
+                "label": "Jim Halpert",
+            },
         ]
     }
     mentions = parse_mentions(page_context)
@@ -77,7 +85,11 @@ def test_ensure_at_most_one_raises_on_multiple() -> None:
 def test_prompt_summary_never_includes_ids() -> None:
     page_context = {
         "mentions": [
-            {"type": "contact", "id": "4c0a9e7a-2f40-4c64-9b7a-1f447f1b7ef8", "label": "Dwight Schrute"}
+            {
+                "type": "contact",
+                "id": "4c0a9e7a-2f40-4c64-9b7a-1f447f1b7ef8",
+                "label": "Dwight Schrute",
+            }
         ]
     }
     mentions = parse_mentions(page_context)
@@ -101,10 +113,12 @@ async def test_parse_and_validate_mentions_calls_validator() -> None:
     v = Validator()
     page_context = {
         "mentions": [
-            {"type": "contact", "id": "4c0a9e7a-2f40-4c64-9b7a-1f447f1b7ef8", "label": "Dwight Schrute"}
+            {
+                "type": "contact",
+                "id": "4c0a9e7a-2f40-4c64-9b7a-1f447f1b7ef8",
+                "label": "Dwight Schrute",
+            }
         ]
     }
     _ = await parse_and_validate_mentions(page_context, validator=v)
     assert v.called is True
-
-

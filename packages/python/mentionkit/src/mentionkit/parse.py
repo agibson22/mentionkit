@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, Generic, Iterable, List, Mapping, Optional, Set
+from typing import Any, Generic
 from uuid import UUID
 
 from mentionkit.normalize import normalize_mention_type
@@ -26,13 +27,23 @@ def _parse_uuid(raw_id: Any) -> UUID:
 class MentionsResult(Generic[IdT]):
     """Grouped mentions with convenience selectors."""
 
-    by_type: Dict[str, List[Mention[IdT]]]
+    by_type: dict[str, list[Mention[IdT]]]
 
-    def get_all(self, mention_type: str, *, aliases: Optional[Mapping[str, str]] = None) -> List[Mention[IdT]]:
+    def get_all(
+        self,
+        mention_type: str,
+        *,
+        aliases: Mapping[str, str] | None = None,
+    ) -> list[Mention[IdT]]:
         key = normalize_mention_type(mention_type, aliases=aliases)
         return list(self.by_type.get(key, []))
 
-    def get_first(self, mention_type: str, *, aliases: Optional[Mapping[str, str]] = None) -> Optional[Mention[IdT]]:
+    def get_first(
+        self,
+        mention_type: str,
+        *,
+        aliases: Mapping[str, str] | None = None,
+    ) -> Mention[IdT] | None:
         matches = self.get_all(mention_type, aliases=aliases)
         return matches[0] if matches else None
 
@@ -40,21 +51,23 @@ class MentionsResult(Generic[IdT]):
         self,
         mention_type: str,
         *,
-        aliases: Optional[Mapping[str, str]] = None,
-    ) -> Optional[Mention[IdT]]:
+        aliases: Mapping[str, str] | None = None,
+    ) -> Mention[IdT] | None:
         matches = self.get_all(mention_type, aliases=aliases)
         if len(matches) > 1:
-            raise TooManyMentionsError(f"Multiple '{mention_type}' mentions provided; disambiguation required.")
+            raise TooManyMentionsError(
+                f"Multiple '{mention_type}' mentions provided; disambiguation required."
+            )
         return matches[0] if matches else None
 
 
 def parse_mentions(
-    page_context: Optional[Mapping[str, Any]],
+    page_context: Mapping[str, Any] | None,
     *,
-    aliases: Optional[Mapping[str, str]] = None,
-    allowed_types: Optional[Iterable[str]] = None,
+    aliases: Mapping[str, str] | None = None,
+    allowed_types: Iterable[str] | None = None,
     dedupe: bool = True,
-    id_parser: Optional[Callable[[Any], IdT]] = None,
+    id_parser: Callable[[Any], IdT] | None = None,
 ) -> MentionsResult[IdT]:
     """Parse, normalize, and group mentions from a `page_context` mapping.
 
@@ -79,12 +92,12 @@ def parse_mentions(
     if not isinstance(raw_mentions, list):
         return MentionsResult(by_type={})
 
-    allowed: Optional[Set[str]] = None
+    allowed: set[str] | None = None
     if allowed_types is not None:
         allowed = {normalize_mention_type(t, aliases=aliases) for t in allowed_types}
 
-    grouped: Dict[str, List[Mention[IdT]]] = {}
-    seen: Dict[str, Set[IdT]] = {}
+    grouped: dict[str, list[Mention[IdT]]] = {}
+    seen: dict[str, set[IdT]] = {}
 
     for m in raw_mentions:
         if not isinstance(m, Mapping):
@@ -126,5 +139,3 @@ def parse_mentions(
 
 
 __all__ = ["MentionParseError", "TooManyMentionsError", "MentionsResult", "parse_mentions"]
-
-

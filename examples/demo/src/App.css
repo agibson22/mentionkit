@@ -32,6 +32,243 @@
   font-size: 14px;
 }
 
+.demoContext {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.demoContextCard {
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 10px var(--shadow-soft);
+}
+
+.demoFlowCard {
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.demoFlowTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 10px;
+}
+
+.demoFlowBody {
+  display: grid;
+  gap: 10px;
+}
+
+.demoFlowRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.demoFlowRowCompact {
+  margin-top: 2px;
+}
+
+.demoFlowNode {
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.demoFlowArrow {
+  color: var(--text-tertiary);
+  font-size: 14px;
+}
+
+.demoFlowSplit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 980px) {
+  .demoFlowSplit {
+    grid-template-columns: 1fr;
+  }
+}
+
+.demoFlowLane {
+  border: 1px dashed var(--border-color);
+  border-radius: 10px;
+  padding: 12px;
+  background: var(--bg-primary);
+}
+
+.demoFlowLaneTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.demoFlowLaneBody {
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.demoFlowLaneNote {
+  margin-top: 8px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.demoFlowDiagram {
+  display: grid;
+  gap: 12px;
+}
+
+.demoFlowStep {
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.demoFlowStepTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.demoFlowStepBody {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.demoFlowPre {
+  margin: 10px 0 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px dashed var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  overflow: auto;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.demoFlowPreSafe {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.demoContextEyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 8px;
+}
+
+.demoContextTitle {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+.demoContextEmphasis {
+  color: var(--accent);
+}
+
+.demoContextGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 980px) {
+  .demoContextGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.demoContextItem {
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.demoContextItemTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.demoContextItemBody {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.demoGuide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 980px) {
+  .demoGuide {
+    grid-template-columns: 1fr;
+  }
+}
+
+.demoGuideCard {
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.demoGuideTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 10px;
+}
+
+.demoGuideList {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.demoGuideList li + li {
+  margin-top: 8px;
+}
+
 .demoThemeToggle {
   display: inline-flex;
   align-items: center;
@@ -61,39 +298,26 @@
   display: block;
 }
 
-.demoTabsOuter {
-  display: flex;
-  justify-content: center;
+.demoDemoCard {
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 10px var(--shadow-soft);
   margin-bottom: 24px;
 }
 
-.demoTabs {
-  display: inline-flex;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--bg-secondary);
+.demoDemoGuide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
-.demoTab {
-  border: none;
-  padding: 8px 16px;
-  font-size: 13px;
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.demoTab:hover {
-  color: var(--text-primary);
-  background: var(--bg-tertiary);
-}
-
-.demoTabActive {
-  background: var(--accent-bg);
-  color: var(--accent);
-  font-weight: 500;
+@media (max-width: 980px) {
+  .demoDemoGuide {
+    grid-template-columns: 1fr;
+  }
 }
 
 .demoGrid {
@@ -118,6 +342,14 @@
   letter-spacing: 0.5px;
 }
 
+.demoSectionCaption {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-tertiary);
+  margin-top: -4px;
+  margin-bottom: 10px;
+}
+
 .demoPreview {
   width: 520px;
 }
@@ -140,180 +372,6 @@
   font-size: 13px;
   line-height: 1.6;
   margin: 0;
-}
-
-/* Shadcn-styled composer styles */
-.mkCard {
-  display: block;
-  width: 100%;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 12px;
-  background: var(--bg-secondary);
-}
-
-.mkPills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.mkPill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border-radius: 999px;
-  border: 1px solid var(--border-color);
-  padding: 4px 10px;
-  font-size: 12px;
-  line-height: 18px;
-  user-select: none;
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-}
-
-.mkPill .mkPillX {
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .mkPill .mkPillX {
-  color: #ffffff !important;
-}
-
-[data-theme="dark"] .mkPill .mkPillX * {
-  color: #ffffff !important;
-}
-
-.mkPillType {
-  color: var(--text-tertiary);
-}
-
-.mkPillLabel {
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.mkPillX {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  color: var(--text-primary);
-  transition: all 0.2s ease;
-  font-size: 16px;
-  line-height: 1;
-}
-
-.mkPillX span {
-  display: inline-block;
-  color: inherit;
-  opacity: 1;
-}
-
-[data-theme="dark"] .mkPillX {
-  color: #ffffff !important;
-}
-
-[data-theme="dark"] .mkPillX span {
-  color: #ffffff !important;
-  opacity: 1 !important;
-}
-
-.mkPillX:hover {
-  background: var(--bg-secondary);
-}
-
-[data-theme="dark"] .mkPillX:hover {
-  color: #ffffff !important;
-}
-
-[data-theme="dark"] .mkPillX:hover span {
-  color: #ffffff !important;
-}
-
-.mkTextarea {
-  width: 100%;
-  min-height: 92px;
-  resize: vertical;
-  border-radius: 6px;
-  border: 1px solid var(--border-color);
-  padding: 10px 12px;
-  font-size: 14px;
-  line-height: 20px;
-  outline: none;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-
-.mkTextarea::placeholder {
-  color: var(--text-tertiary);
-}
-
-.mkTextarea:focus {
-  border-color: var(--accent-border);
-  box-shadow: 0 0 0 3px var(--accent-bg);
-}
-
-.mkMenu {
-  margin-top: 8px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--bg-primary);
-  box-shadow: 0 4px 12px var(--shadow-strong);
-}
-
-.mkMenuMeta {
-  padding: 10px 12px;
-  font-size: 12px;
-  color: var(--text-tertiary);
-}
-
-.mkMenuItem {
-  width: 100%;
-  text-align: left;
-  border: none;
-  background: transparent;
-  color: var(--text-primary);
-  padding: 10px 12px;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-}
-
-.mkMenuItem:hover {
-  background: var(--bg-tertiary);
-}
-
-.mkMenuItem:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: -2px;
-}
-
-.mkMenuItemActive {
-  background: var(--accent-bg);
-}
-
-.mkMenuItemLabel {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin-bottom: 2px;
-}
-
-.mkMenuItemType {
-  font-size: 12px;
-  color: var(--text-tertiary);
 }
 
 /* Vanilla composer theme-aware styles */

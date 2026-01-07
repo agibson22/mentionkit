@@ -1,6 +1,5 @@
 import { useMemo, useState, useEffect } from "react"
 import { MentionComposer, type MentionComposerValue, type MentionSuggestion } from "mentionkit-react"
-import { ShadcnStyledComposer } from "./ShadcnStyledComposer"
 import "./App.css"
 
 function SunIcon() {
@@ -35,7 +34,6 @@ function MoonIcon() {
 
 function App() {
   const [value, setValue] = useState<MentionComposerValue>({ text: "", mentions: [] })
-  const [renderer, setRenderer] = useState<"vanilla" | "shadcn">("vanilla")
   const [theme, setTheme] = useState<"light" | "dark">(() => {
     const saved = localStorage.getItem("theme")
     if (saved === "dark" || saved === "light") return saved
@@ -91,54 +89,127 @@ function App() {
       </div>
       <div className="demoSubtitle">Type <code>@</code> to see suggestions; use click or Enter to insert a pill.</div>
 
-      <div className="demoTabsOuter">
-        <div className="demoTabs" role="tablist" aria-label="Renderer">
-          <button
-            type="button"
-            className={renderer === "vanilla" ? "demoTab demoTabActive" : "demoTab"}
-            role="tab"
-            aria-selected={renderer === "vanilla"}
-            onClick={() => setRenderer("vanilla")}
-          >
-            Vanilla
-          </button>
-          <button
-            type="button"
-            className={renderer === "shadcn" ? "demoTab demoTabActive" : "demoTab"}
-            role="tab"
-            aria-selected={renderer === "shadcn"}
-            onClick={() => setRenderer("shadcn")}
-          >
-            Shadcn-styled
-          </button>
+      <div className="demoDemoCard">
+        <div className="demoDemoGuide">
+          <div className="demoGuideCard">
+            <div className="demoGuideTitle">Try this</div>
+            <ol className="demoGuideList">
+              <li>
+                Type <code>@</code>, select <strong>Dwight Schrute</strong>.
+              </li>
+              <li>
+                Add another mention like <strong>Conference Room All Hands</strong>.
+              </li>
+              <li>Delete a pill and watch the payload update.</li>
+            </ol>
+          </div>
+          <div className="demoGuideCard">
+            <div className="demoGuideTitle">Notice</div>
+            <ul className="demoGuideList">
+              <li>The payload preview includes IDs for clarity; prompts should not.</li>
+              <li>The backend uses mention IDs to resolve the exact entity (tenant/account scoped), even if names are ambiguous.</li>
+            </ul>
+          </div>
         </div>
-      </div>
 
-      <div className="demoGrid">
-        <div>
-          <div className="demoSectionTitle">Composer</div>
+        <div className="demoGrid">
+          <div>
+            <div className="demoSectionTitle">Composer</div>
+            <div className="demoSectionCaption">Type <code>@</code> to insert a mention pill.</div>
 
-          {renderer === "vanilla" ? (
             <MentionComposer
               value={value}
               onChange={setValue}
               placeholder="Try: @contact Dwight"
               getSuggestions={getSuggestions}
             />
-          ) : (
-            <ShadcnStyledComposer
-              value={value}
-              onChange={setValue}
-              placeholder="Try: @contact Dwight"
-              getSuggestions={getSuggestions}
-            />
-          )}
+          </div>
+
+          <div className="demoPreview">
+            <div className="demoSectionTitle">Payload preview</div>
+            <div className="demoSectionCaption">
+              Backend-only payload (IDs are shown here for clarity; don&apos;t put them in prompts).
+            </div>
+            <pre className="demoPre">{payloadPreview}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div className="demoContext">
+        <div className="demoContextCard">
+          <div className="demoContextEyebrow">What you&apos;re looking at</div>
+          <div className="demoContextTitle">
+            A chat composer that produces <span className="demoContextEmphasis">two outputs</span>: (1) prompt-safe text and (2) a
+            structured mentions payload for your backend.
+          </div>
+          <div className="demoContextGrid">
+            <div className="demoContextItem">
+              <div className="demoContextItemTitle">LLM-safe text</div>
+              <div className="demoContextItemBody">
+                Send only <code>content</code> to the LLM. It contains human-readable labels, never stable IDs.
+              </div>
+            </div>
+            <div className="demoContextItem">
+              <div className="demoContextItemTitle">Backend-only mentions</div>
+              <div className="demoContextItemBody">
+                Your app uses <code>page_context.mentions</code> to resolve entities deterministically (and validate tenant/account scope)
+                before tool execution.
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="demoPreview">
-          <div className="demoSectionTitle">Payload preview</div>
-          <pre className="demoPre">{payloadPreview}</pre>
+        <div className="demoFlowCard">
+          <div className="demoFlowTitle">Data flow</div>
+          <div className="demoFlowBody">
+            <div className="demoFlowDiagram">
+              <div className="demoFlowStep">
+                <div className="demoFlowStepTitle">1) User mentions an entity</div>
+                <div className="demoFlowStepBody">
+                  The UI collects <code>content</code> (text) and <code>page_context.mentions</code> (IDs).
+                </div>
+              </div>
+
+              <div className="demoFlowStep">
+                <div className="demoFlowStepTitle">2) UI → Backend (request)</div>
+                <pre className="demoFlowPre">{`{
+  content: "Schedule Dwight",
+  page_context: { mentions: [{ type, id, label }] }  // IDs live here
+}`}</pre>
+              </div>
+
+              <div className="demoFlowStep">
+                <div className="demoFlowStepTitle">3) Backend → LLM (prompt)</div>
+                <div className="demoFlowStepBody">
+                  Backend builds the prompt from <code>content</code> plus a safe mentions summary (labels/types/counts).{" "}
+                  <strong>IDs are never included in the prompt.</strong>
+                </div>
+                <pre className="demoFlowPre demoFlowPreSafe">{`Prompt:
+- content (text)
+- Mentions: contact=[Dwight Schrute]   // labels only
+- (no IDs)`}</pre>
+              </div>
+
+              <div className="demoFlowStep">
+                <div className="demoFlowStepTitle">4) LLM tool calls ↔ Backend (orchestration)</div>
+                <div className="demoFlowStepBody">
+                  If the LLM requests a tool, the backend executes it by resolving the correct entity <strong>by ID</strong>{" "}
+                  (tenant/account-scoped), then returns tool results to the LLM.
+                </div>
+                <pre className="demoFlowPre">{`LLM: call tool(...)
+Backend: validate scope → resolve by ID → run tools/queries
+Backend → LLM: tool result (no stable IDs in prompts/logs)`}</pre>
+              </div>
+
+              <div className="demoFlowStep">
+                <div className="demoFlowStepTitle">5) Backend → UI (final answer)</div>
+                <div className="demoFlowStepBody">Backend returns the final response to the UI.</div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Try/Notice live with the demo card above */}
       </div>
     </div>
   )

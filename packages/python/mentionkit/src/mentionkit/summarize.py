@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Dict, List, Optional
-
 from mentionkit.parse import MentionsResult
 
 
@@ -9,7 +7,7 @@ def summarize_mentions_for_prompt(
     mentions: MentionsResult,
     *,
     max_labels_per_type: int = 3,
-) -> Optional[str]:
+) -> str | None:
     """Build a prompt-safe mentions summary.
 
     This summary is safe to include in prompts/logs because it uses only:
@@ -23,7 +21,7 @@ def summarize_mentions_for_prompt(
     if not mentions.by_type:
         return None
 
-    parts: List[str] = []
+    parts: list[str] = []
     for mention_type, items in mentions.by_type.items():
         if not items:
             continue
@@ -31,7 +29,8 @@ def summarize_mentions_for_prompt(
         labels = [m.label for m in items if m.label]
         if labels:
             shown = ", ".join(labels[:max_labels_per_type])
-            suffix = "" if len(labels) <= max_labels_per_type else f" (+{len(labels) - max_labels_per_type} more)"
+            extra = len(labels) - max_labels_per_type
+            suffix = "" if extra <= 0 else f" (+{extra} more)"
             parts.append(f"{mention_type}=[{shown}{suffix}]")
         else:
             parts.append(f"{mention_type}={len(items)}")
@@ -43,5 +42,3 @@ def summarize_mentions_for_prompt(
 
 
 __all__ = ["summarize_mentions_for_prompt"]
-
-

@@ -20,5 +20,3 @@ __all__ = [
     "parse_and_validate_mentions",
     "summarize_mentions_for_prompt",
 ]
-
-

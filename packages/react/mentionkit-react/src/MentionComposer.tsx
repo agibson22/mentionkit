@@ -42,6 +42,12 @@ export function MentionComposer(props: MentionComposerProps) {
     return () => observer.disconnect()
   }, [])
 
+  const borderColor = "var(--border-color, rgba(0,0,0,0.2))"
+  const menuBg = "var(--bg-secondary, #ffffff)"
+  const menuHoverBg = "var(--bg-tertiary, rgba(0,0,0,0.05))"
+  const textPrimary = "var(--text-primary, #1a1a1a)"
+  const textSecondary = "var(--text-secondary, rgba(0,0,0,0.7))"
+
   return (
     <div ref={composer.rootRef}>
       {value.mentions.length > 0 && (
@@ -57,12 +63,12 @@ export function MentionComposer(props: MentionComposerProps) {
                   alignItems: "center",
                   gap: 8,
                   borderRadius: 999,
-                  border: "1px solid rgba(0,0,0,0.2)",
+                  border: `1px solid ${borderColor}`,
                   padding: "2px 10px",
                   fontSize: 12,
                   lineHeight: "18px",
                   userSelect: "none",
-                  color: "var(--text-primary, #1a1a1a)",
+                  color: textPrimary,
                 }}
               >
                 <span style={{ opacity: 0.7 }}>@{m.type}</span>
@@ -118,19 +124,20 @@ export function MentionComposer(props: MentionComposerProps) {
         <div
           style={{
             marginTop: 6,
-            border: "1px solid rgba(0,0,0,0.2)",
+            border: `1px solid ${borderColor}`,
             borderRadius: 8,
             overflow: "hidden",
             maxWidth: 480,
+            background: menuBg,
           }}
         >
           {composer.loading && (
-            <div style={{ padding: 8, fontSize: 12, opacity: 0.7 }}>
+            <div style={{ padding: 8, fontSize: 12, color: textSecondary }}>
               Searching…
             </div>
           )}
           {!composer.loading && composer.items.length === 0 && (
-            <div style={{ padding: 8, fontSize: 12, opacity: 0.7 }}>
+            <div style={{ padding: 8, fontSize: 12, color: textSecondary }}>
               No matches
             </div>
           )}
@@ -145,13 +152,14 @@ export function MentionComposer(props: MentionComposerProps) {
                     width: "100%",
                     textAlign: "left",
                     border: "none",
-                    background: idx === composer.highlightedIndex ? "rgba(0,0,0,0.05)" : "transparent",
+                    background: idx === composer.highlightedIndex ? menuHoverBg : "transparent",
                     padding: "8px 10px",
                     cursor: "pointer",
+                    color: textPrimary,
                   }}
                 >
                   <div style={{ fontSize: 13, fontWeight: 500 }}>{m.label}</div>
-                  <div style={{ fontSize: 12, opacity: 0.7 }}>@{m.type}</div>
+                  <div style={{ fontSize: 12, color: textSecondary }}>@{m.type}</div>
                 </button>
               ))}
             </div>

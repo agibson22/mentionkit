@@ -1,6 +1,56 @@
 name: CI
 
 on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: false
+
+      - name: Install (python)
+        working-directory: packages/python/mentionkit
+        run: uv pip install --system -e ".[dev]"
+
+      - name: Lint (ruff)
+        working-directory: packages/python/mentionkit
+        run: ruff check .
+
+      - name: Format check (black)
+        working-directory: packages/python/mentionkit
+        run: black --check .
+
+      - name: Test
+        working-directory: packages/python/mentionkit
+        run: pytest -q
+
+      - name: Build (sdist + wheel)
+        working-directory: packages/python/mentionkit
+        run: |
+          uv pip install --system build
+          python -m build
+
+name: CI
+
+on:
   pull_request:
   push:
     branches: [main]

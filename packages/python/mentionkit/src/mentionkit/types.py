@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Hashable
 from dataclasses import dataclass
-from typing import Generic, Hashable, Optional, TypeVar
+from typing import Generic, TypeVar
 
 IdT = TypeVar("IdT", bound=Hashable)
 
@@ -17,6 +18,4 @@ class Mention(Generic[IdT]):
 
     type: str
     id: IdT
-    label: Optional[str] = None
-
-
+    label: str | None = None

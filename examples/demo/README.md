@@ -2,6 +2,23 @@
 
 This is a tiny Vite app that exercises `mentionkit-react`.
 
+### What this demo is showing (why you should care)
+LLM chat UIs need a clean UX for selecting real entities (contacts, meetings, etc) without leaking stable identifiers (UUID/ULID/etc) into prompts or prompt logs.
+
+This demo shows a composer that produces **two outputs**:
+
+- **Prompt-safe text** (`content`): what you send to an LLM (labels/types only; never IDs)
+- **Backend-only payload** (`page_context.mentions`): what your backend uses to resolve entities deterministically and validate tenant/account scope before tool execution
+
+### What to try
+- Type `@`, select **Dwight Schrute**
+- Add another mention like **Conference Room All Hands**
+- Delete a pill and watch the payload preview update
+
+### What to notice
+- The payload preview includes IDs **for clarity**; your prompts should not.
+- The backend uses mention IDs to resolve the exact entity (tenant/account scoped), even if names are ambiguous.
+
 ### Run locally
 
 From the repo root:
@@ -18,7 +35,9 @@ cd examples/demo
 npm run dev
 ```
 
-# React + TypeScript + Vite
+---
+
+## React + TypeScript + Vite (template notes)
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Mapping, Optional, Protocol, runtime_checkable
+from collections.abc import Mapping
+from typing import Any, Protocol, runtime_checkable
 
 from mentionkit.parse import MentionsResult, parse_mentions
 
@@ -20,9 +21,9 @@ class MentionValidator(Protocol):
 
 
 async def parse_and_validate_mentions(
-    page_context: Optional[Mapping[str, Any]],
+    page_context: Mapping[str, Any] | None,
     *,
-    validator: Optional[MentionValidator] = None,
+    validator: MentionValidator | None = None,
     **kwargs,
 ) -> MentionsResult:
     """Parse mentions and optionally validate them via an app-provided validator.
@@ -38,5 +39,3 @@ async def parse_and_validate_mentions(
 
 
 __all__ = ["MentionValidator", "parse_and_validate_mentions"]
-
-

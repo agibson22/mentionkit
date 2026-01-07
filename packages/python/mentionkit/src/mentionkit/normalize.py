@@ -10,8 +10,8 @@ This module provides a small normalization helper that supports:
 
 from __future__ import annotations
 
-from typing import Final, Mapping, Optional
-
+from collections.abc import Mapping
+from typing import Final
 
 DEFAULT_TYPE_ALIASES: Final[Mapping[str, str]] = {
     # Common alias seen in calendar/event integrations.
@@ -19,7 +19,7 @@ DEFAULT_TYPE_ALIASES: Final[Mapping[str, str]] = {
 }
 
 
-def normalize_mention_type(raw_type: str, *, aliases: Optional[Mapping[str, str]] = None) -> str:
+def normalize_mention_type(raw_type: str, *, aliases: Mapping[str, str] | None = None) -> str:
     """Normalize a mention type using aliases.
 
     - Always trims and lowercases.
@@ -30,5 +30,3 @@ def normalize_mention_type(raw_type: str, *, aliases: Optional[Mapping[str, str]
     key = (raw_type or "").strip().lower()
     mapping = aliases if aliases is not None else DEFAULT_TYPE_ALIASES
     return mapping.get(key, key)
-
-
