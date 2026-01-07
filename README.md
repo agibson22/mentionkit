@@ -1,6 +1,13 @@
 ## mentionkit
 
+[![CI](https://img.shields.io/github/actions/workflow/status/agibson22/mentionkit/ci.yml?branch=main)](https://github.com/agibson22/mentionkit/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+
 Secure, ID-backed `@mentions` (“pills”) for LLM chat UIs.
+
+### Packages
+- Python: `packages/python/mentionkit/`
+- React: `packages/react/mentionkit-react/`
 
 ### Why?
 Built because `@mentions` are common, annoying to build, and easily insecure.

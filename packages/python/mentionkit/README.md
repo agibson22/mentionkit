@@ -1,5 +1,9 @@
 ## mentionkit (Python)
 
+[![PyPI](https://img.shields.io/pypi/v/mentionkit)](https://pypi.org/project/mentionkit/)
+[![Python](https://img.shields.io/pypi/pyversions/mentionkit)](https://pypi.org/project/mentionkit/)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+
 Secure, ID-backed `@mentions` (“pills”) for LLM chat UIs.
 
 Docs:

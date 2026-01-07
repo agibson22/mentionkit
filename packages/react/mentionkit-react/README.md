@@ -1,5 +1,8 @@
 # mentionkit-react
 
+[![npm](https://img.shields.io/npm/v/mentionkit-react)](https://www.npmjs.com/package/mentionkit-react)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+
 React helpers/components for **ID-backed `@mentions` (“pills”)**.
 
 This package is designed so you can:
