@@ -1,0 +1,43 @@
+name: Publish (npm)
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install deps (workspaces)
+        run: npm ci
+
+      - name: Verify tag matches mentionkit-react version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG_VERSION="$(node -p "require('./packages/react/mentionkit-react/package.json').version")"
+          if [ "$TAG" != "$PKG_VERSION" ]; then
+            echo "Tag v$TAG does not match mentionkit-react version $PKG_VERSION"
+            exit 1
+          fi
+
+      - name: Build mentionkit-react
+        run: npm run -w mentionkit-react build
+
+      - name: Publish mentionkit-react
+        run: npm publish -w mentionkit-react
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+

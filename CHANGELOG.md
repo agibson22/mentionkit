@@ -8,6 +8,10 @@ This repo contains multiple packages:
 
 ## Unreleased
 
+- TBD
+
+## v0.2.0
+
 - **Python (`mentionkit`)**
   - Add `id_parser` to `parse_mentions(...)` to support non-UUID ID types while preserving the “IDs never in prompts” boundary.
   - Make mention IDs generic/hashable in types/results to support alternate identifier schemes.
