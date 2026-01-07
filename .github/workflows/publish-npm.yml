@@ -5,6 +5,11 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to publish (e.g. v0.2.1)"
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -15,18 +20,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
 
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-          registry-url: "https://registry.npmjs.org"
+
+      - name: Ensure no npm auth token is configured (Trusted Publishing uses OIDC)
+        run: rm -f ~/.npmrc
 
       - name: Install deps (workspaces)
         run: npm ci
 
       - name: Verify tag matches mentionkit-react version
         run: |
-          TAG="${GITHUB_REF_NAME#v}"
+          TAG_INPUT="${{ inputs.tag }}"
+          if [ -n "$TAG_INPUT" ]; then
+            TAG="${TAG_INPUT#v}"
+          else
+            TAG="${GITHUB_REF_NAME#v}"
+          fi
           PKG_VERSION="$(node -p "require('./packages/react/mentionkit-react/package.json').version")"
           if [ "$TAG" != "$PKG_VERSION" ]; then
             echo "Tag v$TAG does not match mentionkit-react version $PKG_VERSION"
