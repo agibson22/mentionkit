@@ -52,5 +52,8 @@ jobs:
 
       - name: Publish mentionkit-react
         run: npm publish -w mentionkit-react --provenance
+        env:
+          NPM_CONFIG_USERCONFIG: /dev/null
+          NPM_CONFIG_GLOBALCONFIG: /dev/null
 
 
