@@ -119,10 +119,36 @@ The spec allows duplicate mentions (even the same `{type,id}` repeated). You can
 - `examples/demo/README.md`: local demo (mentionkit-react)
 - `examples/api/README.md`: local backend demo API (FastAPI)
 
+### Publishing / releases (monorepo)
+
+This repo publishes **two packages** (versioned independently):
+
+- **npm**: `mentionkit-react` (`packages/react/mentionkit-react/`)
+- **PyPI**: `mentionkit` (`packages/python/mentionkit/`)
+
+#### Release `mentionkit-react` (npm)
+
+1. Bump version in `packages/react/mentionkit-react/package.json`
+2. Commit and push to `main`
+3. Create and push a tag in the form `react-vX.Y.Z` (must match the package.json version)
+
+Notes:
+- npm publishing uses **Trusted Publishing (OIDC)** via `.github/workflows/publish-npm.yml`
+- In npm package settings → **Trusted Publisher**, the **Workflow filename** must be `publish-npm.yml`
+
+#### Release `mentionkit` (PyPI)
+
+1. Bump version in `packages/python/mentionkit/pyproject.toml`
+2. Commit and push to `main`
+3. Create and push a tag in the form `py-vX.Y.Z` (must match the pyproject.toml version)
+
+Notes:
+- PyPI publishing uses **Trusted Publishing (OIDC)** via `.github/workflows/publish-pypi.yml`
+
 ### Status
 v0.2 — dogfooding and iterating (see `CHANGELOG.md` for release notes).
 
-### Roadmap (deferred)
+### Roadmap (tbd)
 
 - **Backend demo API (FastAPI)**: add `examples/api` with `/suggest` + `/resolve` for an end-to-end deterministic resolution demo.
 - **Non-UUID IDs**: add support for ULID/ObjectId/int in Python parsing/validation while preserving the “IDs never in prompts” boundary.

@@ -3,11 +3,11 @@ name: Publish (npm)
 on:
   push:
     tags:
-      - "v*"
+      - "react-v*"
   workflow_dispatch:
     inputs:
       tag:
-        description: "Tag to publish (e.g. v0.2.1)"
+        description: "Tag to publish (e.g. react-v0.2.1)"
         required: true
         type: string
 
@@ -26,9 +26,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+          registry-url: "https://registry.npmjs.org"
 
-      - name: Ensure no npm auth token is configured (Trusted Publishing uses OIDC)
-        run: rm -f ~/.npmrc
+      # npm Trusted Publishing (OIDC) requires a recent npm CLI.
+      # Without it, auth failures can be surfaced as misleading 404s.
+      - name: Upgrade npm (Trusted Publishing)
+        run: npm i -g npm@^11.5.1
+
+      - name: Versions
+        run: |
+          node --version
+          npm --version
 
       - name: Install deps (workspaces)
         run: npm ci
@@ -37,13 +45,13 @@ jobs:
         run: |
           TAG_INPUT="${{ inputs.tag }}"
           if [ -n "$TAG_INPUT" ]; then
-            TAG="${TAG_INPUT#v}"
+            TAG="${TAG_INPUT#react-v}"
           else
-            TAG="${GITHUB_REF_NAME#v}"
+            TAG="${GITHUB_REF_NAME#react-v}"
           fi
           PKG_VERSION="$(node -p "require('./packages/react/mentionkit-react/package.json').version")"
           if [ "$TAG" != "$PKG_VERSION" ]; then
-            echo "Tag v$TAG does not match mentionkit-react version $PKG_VERSION"
+            echo "Tag react-v$TAG does not match mentionkit-react version $PKG_VERSION"
             exit 1
           fi
 
@@ -51,9 +59,6 @@ jobs:
         run: npm run -w mentionkit-react build
 
       - name: Publish mentionkit-react
-        run: npm publish -w mentionkit-react --provenance
-        env:
-          NPM_CONFIG_USERCONFIG: /dev/null
-          NPM_CONFIG_GLOBALCONFIG: /dev/null
+        run: npm publish -w mentionkit-react --provenance --access public
 
 
