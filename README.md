@@ -5,6 +5,10 @@
 
 Secure, ID-backed `@mentions` (“pills”) for LLM chat UIs.
 
+### Live demo
+
+GitHub Pages demo: https://agibson22.github.io/mentionkit/
+
 ### Packages
 - Python: `packages/python/mentionkit/`
 - React: `packages/react/mentionkit-react/`
