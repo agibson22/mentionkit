@@ -1,9 +1,16 @@
 [project]
 name = "mentionkit"
-version = "0.2.1"
+version = "0.2.2"
 description = "Secure, ID-backed @mentions (“pills”) for LLM chat UIs."
 readme = "README.md"
 requires-python = ">=3.10"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
 license = { text = "Apache-2.0" }
 authors = [{ name = "ag", email = "agibson22@gmail.com" }]
 
