@@ -1,10 +1,15 @@
 {
   "name": "mentionkit-react",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "publishConfig": {
     "access": "public"
   },
   "description": "React helpers/components for mentionkit (@mentions pills).",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agibson22/mentionkit",
+    "directory": "packages/react/mentionkit-react"
+  },
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.js",
